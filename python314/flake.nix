@@ -61,7 +61,7 @@
             ]
           )
       );
-      virtualenvName = "venv";
+
     in
     {
       devShells = forAllSystems (
@@ -69,7 +69,7 @@
         let
           pkgs = nixpkgs.legacyPackages.${system};
           pythonSet = pythonSets.${system}.overrideScope editableOverlay;
-          virtualenv = pythonSet.mkVirtualEnv "${virtualenvName}" workspace.deps.all;
+          virtualenv = pythonSet.mkVirtualEnv "hello-world-dev-env" workspace.deps.all;
         in
         {
           default = pkgs.mkShell {
@@ -91,14 +91,7 @@
       );
 
       packages = forAllSystems (system: {
-        default = pythonSets.${system}.mkVirtualEnv "${virtualenvName}" workspace.deps.default;
+        default = pythonSets.${system}.mkVirtualEnv "hello-world-env" workspace.deps.default;
       });
-
-      # Add any shell logic you want executed any time the environment is activated
-      shellHook = ''
-        echo "The project commands are in the local dev-bin directory. dev-vin has been added to \$PATH."
-        export PATH=$PWD/dev-bin:$PATH
-        zsh
-      '';
     };
 }

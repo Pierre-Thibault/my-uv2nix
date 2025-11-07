@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-exec nix develop  # Replace the current environment with the new one updated
